@@ -1,0 +1,34 @@
+---
+- name: Setup WebServer
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: Install apache2
+      apt:
+        name: apache2
+        state: present
+
+    - name: Start apache2
+      service:
+         name: apache2
+         state: started
+         enabled: yes
+
+    - name: Deploy webconfig
+      file:
+        src: index.html
+        dest: /var/www/html/index.html
+
+
+
+
+- name: Setup DB server
+  host: dbservers
+  task: 
+    - name: Install mongodb
+      yum :
+        name: mariadb-server
+        state: present
+
+
+      

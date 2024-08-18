@@ -1,0 +1,33 @@
+---
+- name: Setup DB Server
+  hosts: dbservers
+  become: yes
+  tasks: 
+    - name: Install MongoDB
+      yum:
+        name: mariadb-server
+        state: present
+      become: true
+
+    - name: Start and Enable MariaDB Server
+      service: 
+        name: mariadb
+        state: started
+        enabled: yes
+
+    - name: Install Python3-pymysql
+      yum:
+        name: python39-PyMySQL
+        state: present
+
+    - name: Create a new database "DevopsDB"
+      mysql_db: 
+        name: devopsdb
+        state: present
+   
+    - name: Create Database user "Devops"
+      mysql_user:
+        name: Devops
+        password: devops@123
+        priv: '*.*:ALL'
+        state: present        
